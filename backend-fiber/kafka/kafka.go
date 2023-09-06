@@ -1,4 +1,4 @@
-package main
+package kafka
 
 import (
 	"fmt"
@@ -11,42 +11,6 @@ type KafkaChannel struct {
 	Producer sarama.SyncProducer
 	Consumer sarama.Consumer
 	done     chan bool
-}
-
-func main() {
-	conf := sarama.NewConfig()
-	conf.Producer.Return.Successes = true
-	connectionString := []string{
-		"kafka-kafka-1:9092",
-	}
-	conn, err := sarama.NewClient(connectionString, conf)
-	if err != nil {
-		fmt.Println("Error client: ", err)
-		os.Exit(1)
-	}
-
-	producer, err := sarama.NewSyncProducerFromClient(conn)
-	if err != nil {
-		fmt.Println("Error producer: ", err)
-		os.Exit(1)
-	}
-	consumer, err := sarama.NewConsumerFromClient(conn)
-	if err != nil {
-		fmt.Println("Error consumer: ", err)
-		os.Exit(1)
-	}
-	kChannel := KafkaChannel{
-		Producer: producer,
-		Consumer: consumer,
-		done:     make(chan bool),
-	}
-	go func() {
-		for i := 0; i < 10; i++ {
-			kChannel.Produce("kafka-msg", fmt.Sprintf("Message %d", i))
-		}
-	}()
-	go kChannel.Consume("kafka-msg")
-	<-kChannel.done
 }
 
 func (k *KafkaChannel) Produce(topic string, message string) {
