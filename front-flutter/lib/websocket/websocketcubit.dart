@@ -5,16 +5,13 @@ class WebSocketMessageCubit extends Cubit<String> {
   WebSocketMessageCubit() : super('');
 
   void connect() {
+    print("websocket connect!");
     websocketCummunication((msg) {
       emit(msg);
     });
   }
 
   void sendMessage(String message) {
-    emit(message);
-  }
-
-  void websocketsendMessage(String message) {
     emit(message);
   }
 }
