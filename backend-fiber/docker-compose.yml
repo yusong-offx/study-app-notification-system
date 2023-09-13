@@ -10,4 +10,4 @@ services:
     image: golang:latest
     volumes:
       - .:/myapp
-    command: bash
+    command: bash -c "cd /myapp && go run main.go"
