@@ -1,0 +1,13 @@
+version: '3.9'
+
+networks:
+  default:
+    external: true
+    name: mof-net
+
+services:
+  go-iris:
+    image: golang:latest
+    volumes:
+      - .:/myapp
+    command: bash -c "cd /myapp && go run main.go"

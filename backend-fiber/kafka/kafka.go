@@ -22,8 +22,6 @@ func (k *KafkaChannel) Produce(topic string, message string) {
 		Value: sarama.StringEncoder(message),
 	}
 	partition, offset, err := k.Producer.SendMessage(msg)
-	_ = partition
-	_ = offset
 	if err != nil {
 		fmt.Println("Error producer: ", err)
 		os.Exit(1)
